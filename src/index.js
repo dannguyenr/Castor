@@ -1,4 +1,4 @@
-import { getUrlParams, objectLiteral } from './helpers';
+const {getUrlParams, objectLiteral} = require('../dist/js/helpers');
 
 const pattern = 'staticOne/:paramOne/staticTwo/:paramTwo/:paramThree'
 
@@ -15,9 +15,9 @@ console.log(getUrlParams('staticOne/one/staticThree/three', pattern));
 // returns {paramOne: 'one', paramTwo: 'two'}
 console.log(getUrlParams('staticOne/one/staticTwo/two', pattern));
 
-type Data = { id: string, name?: string, count: number };
-const before: Data = { id: '1', count: 0 };
-const after: Data = { id: '1', name: 'khan', count: 1 };
+// type Data = { id: string, name?: string, count: number };
+const before = { id: '1', count: 0 };
+const after = { id: '1', name: 'khan', count: 1 };
 
-const trackResult = objectLiteral<Data>(before, after);
+const trackResult = objectLiteral(before, after);
 console.log(trackResult);

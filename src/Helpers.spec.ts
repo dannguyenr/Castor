@@ -1,9 +1,9 @@
 import { describe } from 'mocha';
 import { expect } from 'chai';
-import { getUrlParams } from './helpers';
+import { getUrlParams, objectLiteral } from './helpers';
 
 describe('Helpers test', () => {
-    it('Helper should work', () => {
+    it('getUrlParams function should work', () => {
         const pattern = 'staticOne/:paramOne/staticTwo/:paramTwo/:paramThree'
 
         // does not match the first static part: staticOne <> staticZero, returns {}
@@ -37,5 +37,36 @@ describe('Helpers test', () => {
         expect(params[key1]).to.be.equal('one');
         expect(params[key2]).to.be.equal('two');
         expect('{"paramOne":"one","paramTwo":"two"}').to.be.equal(JSON.stringify(params));
+    });
+
+    it('typeof should work', () => {
+        expect(typeof 42).to.be.equal('number');
+
+        const data = {
+            key1: 123,
+            func1: function() {
+                console.log('func1');
+            },
+            func2: () => {
+                console.log('func2');
+            },
+        };
+        expect(typeof data).to.be.equal('object');
+        expect(typeof data.func1).to.be.equal('function');
+        expect(typeof data.func2).to.be.equal('function');
+
+        expect(typeof null).to.be.equal('object');
+        expect(typeof undefined).to.be.equal('undefined');
+    });
+
+    it('objectLiteral shoudl work', () => {
+        type Data = {id: string, name?: string, count: number};
+        const before: Data = {id: '1', count: 0};
+        const after: Data = {id: '1', name: 'khan', count: 1};
+
+        const trackResult = objectLiteral<Data>(before, after);
+        console.log(trackResult);
+        expect('{"count":{"old":0,"new":1},"name":{"new":"khan"}}').to.be.equal(JSON.stringify(trackResult));
+        
     });
 });
